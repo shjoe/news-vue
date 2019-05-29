@@ -1,3 +1,10 @@
+## Dev update 5.28
+I focused on getting the search page up and running. This may or may not be the main page.
+
+I was able to call on certain objects in the `articles` array in order to populate some HTML. Currently, I have the basics down: title, description, author, source, and url that is linked in the articles `li`. 
+
+In the future, I will need to figure out how to import the object `urlToImage` so that it displays on top of the article title. Once that is done, I can move on to how I want to structure the main and seconday page.
+
 ## Dev update 5.26
 API calls currently return `articles` array. Will need to address and format so that articles are displayed in individual cards that include: title/link, source, and short description.
 

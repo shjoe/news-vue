@@ -8,17 +8,19 @@
       </p>
     </form>
     <ul class="articles" v-if="articles && articles.length > 0">
-      <li class="item" v-for="(item,index) of articles" :key="index">
-        <p>
-          <strong>{{articles}}</strong>
-        </p>
+      <li class="articles" v-for="(articles,index) in articles" :key="index">
+        <a class="articleLink" v-bind:href="articles.url" target="_blank">
+          <!--   Need to utilize this  <img class="articleImage" v-bind:src="articles.urlToImage"/>    -->
+          <h3>{{articles.title}}</h3>
+          <p>{{articles.description}}</p>
+          <p class="citation">Author: {{articles.author}} / Source: {{articles.source.name}}</p>
+        </a>
       </li>
     </ul>
     <div class="no-articles" v-else-if="articles && articles.length==0">
       <h2>No News Found</h2>
       <p>Please adjust your search to find more news.</p>
     </div>
-
     <ul class="errors" v-if="errors && errors.length > 0">
       <li v-for="(error,index) of errors" :key="index">{{error.message}}</li>
     </ul>
@@ -33,17 +35,21 @@ export default {
     return {
       articles: [],
       errors: [],
-      query: [],
+      query: []
     };
   },
   methods: {
     findNews: function() {
       axios
-        .get("https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da", {
-          params: {
-            q: this.query,
+        .get(
+          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da",
+          {
+            params: {
+              q: this.query,
+              pageSize: 9
+            }
           }
-        })
+        )
         .then(response => {
           this.articles = response.data.articles;
         })
@@ -58,9 +64,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .newsVue {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
-
 input[type="text"] {
   border-top: none;
   border-left: none;
@@ -86,21 +91,25 @@ h1,
 h2 {
   font-weight: normal;
 }
-
+h3 {
+  font-weight: bold;
+  text-decoration-line: underline;
+}
+.citation {
+  font-size: 0.8rem;
+}
 ul.articles {
   list-style-type: none;
   padding: 0;
 }
-
 .articles li {
   display: inline-block;
   margin: 10px;
   border: solid 1px #333;
   padding: 0.5rem;
-  width: 200px;
-  min-height: 100px;
+  max-width: 350px;
   color: #fff;
-  background: rgba(0, 0, 0, 0.7);
+  background: black;
 }
 ul.errors {
   list-style-type: none;
@@ -111,8 +120,8 @@ ul.errors {
   padding: 0.5rem;
   margin: 10px 0;
 }
-
-a {
-  color: #42b983;
+.articleLink {
+  text-decoration: none;
+  color: #fff;
 }
 </style>
