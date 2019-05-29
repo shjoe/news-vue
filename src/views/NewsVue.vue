@@ -7,20 +7,17 @@
         <button type="submit">Search</button>
       </p>
     </form>
+    <spinner v-if="showSpinner"></spinner>
     <ul class="articles" v-if="articles && articles.length > 0">
       <li class="articles" v-for="(articles,index) in articles" :key="index">
         <a class="articleLink" v-bind:href="articles.url" target="_blank">
-          <!--   Need to utilize this  <img class="articleImage" v-bind:src="articles.urlToImage"/>    -->
+          <img class="articleImage" v-bind:src="articles.urlToImage">
           <h3>{{articles.title}}</h3>
           <p>{{articles.description}}</p>
           <p class="citation">Author: {{articles.author}} / Source: {{articles.source.name}}</p>
         </a>
       </li>
     </ul>
-    <div class="no-articles" v-else-if="articles && articles.length==0">
-      <h2>No News Found</h2>
-      <p>Please adjust your search to find more news.</p>
-    </div>
     <ul class="errors" v-if="errors && errors.length > 0">
       <li v-for="(error,index) of errors" :key="index">{{error.message}}</li>
     </ul>
@@ -29,31 +26,41 @@
 
 <script>
 import axios from "axios";
+require("vue2-animate/dist/vue2-animate.min.css");
+import Spinner from "@/components/Spinner";
 export default {
   name: "NewsVue",
+  components: {
+    spinner: Spinner
+  },
   data() {
     return {
+      results: null,
       articles: [],
       errors: [],
-      query: []
+      query: [],
+      showSpinner: false
     };
   },
   methods: {
     findNews: function() {
+      this.showSpinner = true;
       axios
         .get(
           "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da",
           {
             params: {
               q: this.query,
-              pageSize: 9
+              pageSize: 9 //The number entered here will dictate how many results show on the page
             }
           }
         )
         .then(response => {
+          this.showSpinner = false;
           this.articles = response.data.articles;
         })
         .catch(error => {
+          this.showSpinner = false;
           this.errors.push(error);
         });
     }
@@ -123,5 +130,8 @@ ul.errors {
 .articleLink {
   text-decoration: none;
   color: #fff;
+}
+.articleImage {
+  width: 350px;
 }
 </style>

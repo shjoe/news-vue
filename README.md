@@ -1,4 +1,10 @@
-## Dev update 5.28
+## Dev update 5.28 Part 2
+
+Article images now populate. The `img` tag is placed just after the `ul` tag and incorporates a `v:bind`. I had to define the width or else it would take up the entire page and overlap with other articles.
+
+Loading animation added in `/src/components` and incorporated into `NewsVue.vue`.
+
+## Dev update 5.28 Part 1
 I focused on getting the search page up and running. This may or may not be the main page.
 
 I was able to call on certain objects in the `articles` array in order to populate some HTML. Currently, I have the basics down: title, description, author, source, and url that is linked in the articles `li`. 
