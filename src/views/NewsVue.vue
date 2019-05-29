@@ -47,11 +47,11 @@ export default {
       this.showSpinner = true;
       axios
         .get(
-          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da",
+          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da&sortBy=popularity",
           {
             params: {
               q: this.query,
-              pageSize: 9 //The number entered here will dictate how many results show on the page
+              pageSize: 12 //The number entered here will dictate how many results show on the page
             }
           }
         )
