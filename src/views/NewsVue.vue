@@ -70,6 +70,7 @@ export default {
     }
   },
   components: {
+    "spinner": Spinner,
     "error-list": ErrorList
   }
 };
