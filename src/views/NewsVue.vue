@@ -18,9 +18,11 @@
         </a>
       </li>
     </ul>
-    <ul class="errors" v-if="errors && errors.length > 0">
-      <li v-for="(error,index) of errors" :key="index">{{error.message}}</li>
-    </ul>
+    <div class="no-articles" v-else-if="articles && articles.length==0">
+      <h2>No News Found</h2>
+      <p>Please adjust your search to find more news.</p>
+    </div>
+    <error-list v-bind:errorList="errors"></error-list>
   </div>
 </template>
 
@@ -28,6 +30,7 @@
 import axios from "axios";
 require("vue2-animate/dist/vue2-animate.min.css");
 import Spinner from "@/components/Spinner";
+import ErrorList from "@/components/ErrorList";
 export default {
   name: "NewsVue",
   components: {
@@ -47,10 +50,11 @@ export default {
       this.showSpinner = true;
       axios
         .get(
-          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da&sortBy=popularity",
+          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da",
           {
             params: {
               q: this.query,
+              sortBy: "popularity",
               pageSize: 12 //The number entered here will dictate how many results show on the page
             }
           }
@@ -64,6 +68,9 @@ export default {
           this.errors.push(error);
         });
     }
+  },
+  components: {
+    "error-list": ErrorList
   }
 };
 </script>
@@ -106,17 +113,20 @@ h3 {
   font-size: 0.8rem;
 }
 ul.articles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   list-style-type: none;
   padding: 0;
 }
 .articles li {
-  display: inline-block;
   margin: 10px;
   border: solid 1px #333;
   padding: 0.5rem;
   max-width: 350px;
   color: #fff;
   background: black;
+  border-radius: 15px;
 }
 ul.errors {
   list-style-type: none;
@@ -133,5 +143,6 @@ ul.errors {
 }
 .articleImage {
   width: 350px;
+  border-radius: 15px;
 }
 </style>
