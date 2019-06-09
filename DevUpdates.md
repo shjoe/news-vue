@@ -1,3 +1,9 @@
+## NewsVue
+
+## Dev update 6.08
+
+Added `TopNews` page that displays 9 top US headlines and incorporated navigation bar. I would have created a common `API.js` file but each page uses a different endpoint. 
+
 ## Dev update 5.30 Part 2
 
 Fixed spinner issue, it needed to be declared in `components` in `NewsVue.vue`.
@@ -32,24 +38,3 @@ In the future, I will need to figure out how to import the object `urlToImage` s
 API calls currently return `articles` array. Will need to address and format so that articles are displayed in individual cards that include: title/link, source, and short description.
 
 In the future, the main page will have top headlines and a second page will include the search box.
-
-## Instructions for working with this application
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run serve
-
-# build for production with minification
-npm run build
-
-```
-
-**Note:** This application has been configured to build files to the `/docs` directory, making it compatible with the "Serve from `master` `/docs` directory" setting for GitHub Pages. Please adjust your GH Pages settings accordingly on your repository settings page.
-
-For detailed explanation on how Vue works, check out the [guide](https://cli.vuejs.org/guide/) and [docs for vue-loader](https://cli.vuejs.org/config/#css-loaderoptions).
-
-## Credits
-This project makes use of the [News API](https://newsapi.org/), which is a wonderful, free API service that you should support.

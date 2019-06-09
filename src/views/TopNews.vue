@@ -1,12 +1,6 @@
 <template>
-  <div class="newsVue">
-    <form v-on:submit.prevent="findNews">
-      <p>
-        Search news for:
-        <input type="text" v-model="query" placeholder="Enter a topic">
-        <button type="submit">Search</button>
-      </p>
-    </form>
+  <div class="topNews">
+    <h2>Top News</h2>
     <spinner v-if="showSpinner"></spinner>
     <ul class="articles" v-if="articles && articles.length > 0">
       <li class="articles" v-for="(articles,index) in articles" :key="index">
@@ -18,10 +12,6 @@
         </a>
       </li>
     </ul>
-    <div class="no-articles" v-else-if="articles && articles.length==0">
-      <h2>No News Found</h2>
-      <p>Please adjust your search to find more news.</p>
-    </div>
     <error-list v-bind:errorList="errors"></error-list>
   </div>
 </template>
@@ -32,7 +22,7 @@ require("vue2-animate/dist/vue2-animate.min.css");
 import Spinner from "@/components/Spinner";
 import ErrorList from "@/components/ErrorList";
 export default {
-  name: "NewsVue",
+  name: "TopNews",
   components: {
     spinner: Spinner
   },
@@ -46,20 +36,19 @@ export default {
     };
   },
   methods: {
-    findNews: function() {
+    getNews: function() {
       this.showSpinner = true; //Spinner on
       axios
         .get(
-          "https://newsapi.org/v2/everything?apiKey=84d4d2e235b442abbc10d838567c37da",//This endpoint calls for everything
+          "https://newsapi.org/v2/top-headlines?country=us&apiKey=84d4d2e235b442abbc10d838567c37da",
           {
             params: {
-              q: this.query, //User inputted search term
-              sortBy: "popularity",
-              pageSize: 12 //The number entered here will dictate how many results show on the page
+              pageSize: 9 //The number entered here will dictate how many results show on the page
             }
           }
-        )
-        .then(response => { //Spinner off
+        ) //This endpoint calls for top-headlines
+        .then(response => {
+          //Spinner off
           this.showSpinner = false;
           this.articles = response.data.articles;
         })
@@ -69,8 +58,12 @@ export default {
         });
     }
   },
+  created: function() {
+    //This will call the above function on page load
+    this.getNews();
+  },
   components: {
-    "spinner": Spinner,
+    spinner: Spinner,
     "error-list": ErrorList
   }
 };
@@ -78,7 +71,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.newsVue {
+.topNews {
   font-size: 1.2rem;
 }
 input[type="text"] {
@@ -94,14 +87,7 @@ input[type="text"] {
   padding: 0.5rem;
 }
 button {
-  background: #333;
-  padding: 0.5rem;
-  font-weight: 300;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 1.4rem;
-  margin-left: 10px;
+  font-weight: bold;
 }
 h1,
 h2 {
